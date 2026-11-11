@@ -23,3 +23,10 @@ def window_sums(values: list[float], size: int) -> list[float]:
     if size <= 0:
         raise ValueError("size must be positive")
     return [total(values[i : i + size]) for i in range(len(values) - size + 1)]
+
+
+def moving_average(values: list[float], size: int) -> list[float]:
+    """The average of every run of `size` consecutive values, in order."""
+    if size <= 0:
+        raise ValueError("size must be positive")
+    return [average(values[i : i + size]) for i in range(len(values) - size)]
