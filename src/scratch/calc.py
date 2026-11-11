@@ -11,6 +11,14 @@ def total(values: list[float]) -> float:
     return result
 
 
+def product(values: list[float]) -> float:
+    """The product of `values` (1 for an empty list)."""
+    result = 1.0
+    for value in values:
+        result *= value
+    return result
+
+
 def average(values: list[float]) -> float:
     """The mean of `values`. Raises ValueError for an empty list."""
     if not values:
