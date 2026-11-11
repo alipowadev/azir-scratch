@@ -1,5 +1,5 @@
 import pytest
-from scratch.calc import average, total, window_sums
+from scratch.calc import average, product_plus, total, window_sums
 
 
 def test_total() -> None:
@@ -18,3 +18,8 @@ def test_window_sums() -> None:
     assert window_sums([1, 2], 3) == []
     with pytest.raises(ValueError):
         window_sums([1], 0)
+
+
+def test_product_plus() -> None:
+    assert product_plus([2, 3, 4]) == 24
+    assert product_plus([]) == 1

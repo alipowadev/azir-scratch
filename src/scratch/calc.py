@@ -23,3 +23,11 @@ def window_sums(values: list[float], size: int) -> list[float]:
     if size <= 0:
         raise ValueError("size must be positive")
     return [total(values[i : i + size]) for i in range(len(values) - size + 1)]
+
+
+def product_plus(values: list[float]) -> float:
+    """The plain product of `values` (1 for an empty list)."""
+    result = 1.0
+    for value in values:
+        result *= value
+    return result

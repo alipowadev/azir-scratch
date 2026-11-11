@@ -51,3 +51,14 @@ The sum of each run of `size` consecutive values, in order; raises `ValueError` 
 [3.0, 5.0, 7.0]
 
 ```
+
+### `product_plus(values)`
+
+The product of `values`; 1 for an empty list.
+
+```python
+>>> from scratch.calc import product_plus
+>>> product_plus([2, 3, 4])
+24.0
+
+```
