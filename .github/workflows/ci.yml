@@ -1,0 +1,20 @@
+# CI of every PR and of main. Azir's review (P15) waits for this workflow (`ci_workflow` in
+# review-policy.yaml, default .github/workflows/ci.yml) before it enables auto-merge.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    uses: ./.github/workflows/checks.yml
