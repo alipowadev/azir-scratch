@@ -5,6 +5,8 @@ from scratch.calc import average, total, window_sums
 def test_total() -> None:
     assert total([]) == 0
     assert total([1, 2, 3]) == 6
+    assert total([1.5, 2.5]) == 4.0
+    assert isinstance(total([]), float)
 
 
 def test_average() -> None:
