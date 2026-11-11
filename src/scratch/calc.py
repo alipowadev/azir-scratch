@@ -5,10 +5,7 @@ from __future__ import annotations
 
 def total(values: list[float]) -> float:
     """The sum of `values` (0 for an empty list)."""
-    result = 0.0
-    for value in values:
-        result += value
-    return result
+    return sum(values, 0.0)
 
 
 def average(values: list[float]) -> float:
