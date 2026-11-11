@@ -1,0 +1,23 @@
+# CI of every PR, of main and of every agent/** push. Azir's file name for product repos (P12
+# template infra/github/agent-ci.yml, config/azir.yaml github.product_ci_workflow): the dev
+# workflow (P14) waits for the push-triggered run of this file on the dev's head commit, and the
+# review (P15) waits for it before enabling auto-merge (`ci_workflow` in review-policy.yaml).
+# The required check is "ci / checks" (this job `ci`, the called job `checks`).
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main, "agent/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    uses: ./.github/workflows/checks.yml

@@ -1,0 +1,72 @@
+# review-policy.yaml: what agents may merge alone, and what needs a human (D-21, plan P15).
+# Approved by the owner from docs/plans/templates/review-policy.yaml. This file is itself a human-only path.
+# Schema: packages/schemas/src/schemas/review_policy.py. CODEOWNERS is generated from human_required by
+# scripts/sync_codeowners.py (CI fails when they disagree).
+
+version: 1
+
+# Any PR that changes one of these paths needs an approval from the code owner (config/azir.yaml
+# github.codeowner: @<org>/admins in an organization, the owner's account in the test setup).
+# GitHub enforces this through CODEOWNERS + "require review from code owners".
+human_required:
+  - "infra/**"                 # cloud resources, network, IAM, VM, Managed Agents config
+  - ".github/**"               # CI, rulesets, workflows: the guardrails themselves
+  - "review-policy.yaml"       # this file
+  - "CODEOWNERS"
+  - "config/**"                # budgets, repos agents may touch, people
+  - "agents/**"                # what agents exist, their tools and limits
+  - "prompts/**"               # how agents behave
+  - "skills/**"                # what agents know
+  - "workflows/**"             # how roles are chained, and who may launch what (D-29)
+  - "services/workflows/**"    # the autonomous workflows: approvals, budgets, escalation
+  - "plugins/**"               # what everyone installs in Claude Code
+  - ".claude-plugin/**"        # where the plugin is installed from (marketplace)
+  - "**/auth/**"               # sign-in and permissions code
+  - "**/rbac/**"
+  - "**/migrations/**"         # database schema changes
+  - "pyproject.toml"           # dependencies (supply chain)
+  - "**/pyproject.toml"
+  - "uv.lock"
+  - "**/package.json"
+  - "**/package-lock.json"
+  - "**/pnpm-lock.yaml"
+  - "docs/decisions.md"
+  - "docs/adr/**"
+  - "docs/security/**"
+
+# PRs bigger than this are never auto-merged (a human clicks merge).
+size_limits:
+  max_changed_lines: 400
+  max_files: 20
+
+# Checks that must pass before any merge.
+required_checks:
+  - ci
+  - review-policy
+  - evals        # only appears on PRs that change agents; see plan P16
+
+reviewer:
+  # Findings at these severities block the merge until fixed (D-31: only `blocking` exists).
+  block_on: [blocking]
+  # The reviewer can always escalate to a human with verdict "needs_human".
+
+auto_merge: true   # set to false on a repo to make every PR need a human click
+
+# The CI workflow the review waits for before auto-merging (default .github/workflows/ci.yml).
+ci_workflow: .github/workflows/agent-ci.yml
+
+labels:
+  needs_human: "needs-human"       # anyone can add it to force a human decision
+  no_auto_merge: "no-auto-merge"
+
+# Always human, whatever the files: releases and production deploys.
+# Enforced by rulesets (only admins create v* tags) and GitHub environments (prod needs an admin).
+always_human:
+  - "creating a v* tag (release)"
+  - "approving a production deployment"
+  - "any agent action that sends a message outside the company, deletes data, or spends money"
+
+# For product repos, add the sensitive areas of that product, for example:
+# product_overrides:
+#   acme-labs/app:
+#     human_required: ["src/billing/**", "src/auth/**", "src/emails/**"]
