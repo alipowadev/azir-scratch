@@ -14,3 +14,40 @@ workflow (P15). No real code.
 uv sync
 uv run pytest
 ```
+
+## Functions
+
+The public functions of `src/scratch/calc.py`. They return floats, because `total` starts from `0.0`.
+
+### `total(values)`
+
+The sum of `values`; 0 for an empty list.
+
+```python
+>>> from scratch.calc import total
+>>> total([1, 2, 3])
+6.0
+
+```
+
+### `average(values)`
+
+The mean of `values`; raises `ValueError` for an empty list.
+
+```python
+>>> from scratch.calc import average
+>>> average([2, 4])
+3.0
+
+```
+
+### `window_sums(values, size)`
+
+The sum of each run of `size` consecutive values, in order; raises `ValueError` if `size <= 0`.
+
+```python
+>>> from scratch.calc import window_sums
+>>> window_sums([1, 2, 3, 4], 2)
+[3.0, 5.0, 7.0]
+
+```
