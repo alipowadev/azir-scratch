@@ -52,6 +52,9 @@ reviewer:
 
 auto_merge: true   # set to false on a repo to make every PR need a human click
 
+# The CI workflow the review waits for before auto-merging (default .github/workflows/ci.yml).
+ci_workflow: .github/workflows/agent-ci.yml
+
 labels:
   needs_human: "needs-human"       # anyone can add it to force a human decision
   no_auto_merge: "no-auto-merge"
